@@ -1,0 +1,63 @@
+﻿@model List<OrderStaffViewModel>
+
+@{
+	int n = 10;
+	int i = 0;
+}
+
+<div class="container">
+	@await Component.InvokeAsync("Options")
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Status</th>
+				<th scope="col">Total</th>
+				<th scope="col">Crated at</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var order in Model)
+			{
+				<tr>
+					<th scope="row">@(++i)</th>
+					<td>@order.Status</td>
+					<td>@order.Total</td>
+					<td>@order.Created_at.ToString("yy/MM/dd hh:mm:ss")</td>
+					<td>
+						@if (@order.Status.Equals("created"))
+						{
+							<form method="post" asp-action="TakePacking">
+								<input type="hidden" name="id" value="@order.Id">
+								@if (i <= n)
+								{
+									<input type="submit" value="Take packing" class="btn btn-warning">
+								}
+								else
+								{
+									<input type="submit" value="Take packing" class="btn btn-warning" disabled>
+								}
+							</form>
+						}
+						@if (@order.Status.Equals("packed"))
+						{
+							<form method="post" asp-action="TakeDelivery">
+								<input type="hidden" name="id" value="@order.Id">
+								@if (i <= n)
+								{
+									<input type="submit" value="Take delivery" class="btn btn-info">
+								}
+								else
+								{
+									<input type="submit" value="Take delivery" class="btn btn-info" disabled>
+								}
+							</form>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

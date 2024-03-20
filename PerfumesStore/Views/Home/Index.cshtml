@@ -1,0 +1,163 @@
+﻿@model IndexViewModel
+@addTagHelper *, PerfumesStore
+
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="d-grid">
+	<button class="btn btn-white shadow-sm mb-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+		Show filters
+	</button>
+	<div class="container">
+		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+			@foreach (var item in Model.Perfumes)
+			{
+				<div class="p-2" id="@item.Id">
+					<div class="card shadow-sm">
+						@if (item.Discount != null && item.Discount != 0)
+						{
+							<span class="badge bg-danger position-absolute" style="width:3rem; z-index:1;">@item.Discount%</span>
+						}
+						<img src="https://m.media-amazon.com/images/I/71pB8JfJutL._SX466_.jpg" class="card-img-top" alt="">
+						
+@*						<img src="https://slimages.macysassets.com/is/image/MCY/products/7/optimized/23910587_fpx.tif?op_sharpen=1&wid=1200&fit=fit,1&$filtersm$&fmt=webp" class="card-img-top" alt="">
+*@						<div class="card-body">
+							<h5 class="card-title">@item.Name</h5>
+							<h6 class="card-subtitle mb-2 text-muted">
+								@if (item is Perfume)
+								{
+									string b = (item as Perfume).Brand;
+									<text>@b</text>
+								}
+							</h6>
+							<p class="card-text">@item.Desc</p>
+							<div class="d-flex justify-content-between">
+								@{
+									string type = "";
+									if (item is Perfume)
+									{
+										type = "Perfume";
+									}
+									if (item is GiftPack)
+									{
+										type = "GiftPack";
+									}
+								}
+								@if (User.IsInRole("User"))
+								{
+									<a class="btn btn-light shadow-sm" asp-controller="Home" asp-action="ToCart"
+							   asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path" asp-fragment="@item.Id" asp-route-type="@type" asp-route-page="@Model.Pagination.CurrentPage">To cart</a>
+								}
+								<p class="card-text text-muted p-2">@item.Price$</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+	<div class="d-flex justify-content-center">
+		<pagination action="Index" buttons-aside="1" paging="@Model.Pagination" class="mt-2"></pagination>
+		<a href="#top-anchor" class="link-secondary p-2 ms-2">To top</a>
+	</div>
+</div>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+	<div class="offcanvas-header">
+		<h5 class="offcanvas-title" id="offcanvasExampleLabel">Filter settings</h5>
+		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body container-fluid">
+		<form class="" method="get" asp-action="" name="settings">
+			<div class="row">
+				<label for="name" class="form-label">
+					<sorting sort-target="Name" current-model="@Model.Sorting" action="Index">Name:</sorting>
+				</label>
+				<div class="col-12">
+					<input type="text" name="name" value="@Model.Filter.NameFilter" class="form-control" />
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-12">
+					<label class="form-label" for="priceRange">
+						<sorting sort-target="Price" current-model="@Model.Sorting" action="Index">Price:</sorting>
+						<span id="priceValue"> @Model.Filter.PriceFilter</span>$
+					</label>
+					<div class="range">
+						<input name="price" type="range" class="form-range" value="@Model.Filter.PriceFilter" min="0" max="@Model.pageParams.MaxPrice" id="priceRange" />
+					</div>
+				</div>
+			</div>
+			<div class="row mt-2">
+				@*<div class="dropdown col-6">
+				<label for="brand" class="form-label">
+				<sorting sort-target="Brand" current-model="@Model.Sorting" action="Index">Brand:</sorting>
+				</label>
+				<select name="brand" class="form-select">
+				<option value="All">All</option>
+				<option value="Versace">Versace</option>
+				<option value="Dior">Dior</option>
+				<option value="Prada">Prada</option>
+				</select>
+				</div>*@
+				<div class="col-6">
+					<label for="state" class="form-label">State:</label>
+					<div class="form-check">
+
+						<input class="form-check-input" type="radio" name="state" value="All" id="stateRadio1">
+						<label class="form-check-label" for="stateRadio1">
+							All
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="state" value="Male" id="stateRadio2">
+						<label class="form-check-label" for="stateRadio2">
+							Male
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="state" value="Female" id="stateRadio3">
+						<label class="form-check-label" for="stateRadio3">
+							Female
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="state" value="Unisex" id="stateRadio4">
+						<label class="form-check-label" for="stateRadio4">
+							Unisex
+						</label>
+					</div>
+				</div>
+				<div class="col-12">
+					<input type="submit" value="Search" class="btn btn-light shadow-sm w-100" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	const span = document.getElementById("priceValue");
+	const range = document.forms["settings"].price;
+
+	range.addEventListener("input", (e) => {
+		span.textContent = range.value;
+	});
+
+
+	const radios = document.querySelectorAll("input[type=radio][name=state]");
+
+	radios.forEach((radio) => {
+		if ("@Model.Filter.StateFilter.ToLower()" == radio.value.toLowerCase())
+			radio.checked = true;
+	});
+
+	const options = document.querySelectorAll("select[name=brand] > option");
+
+	options.forEach((option) => {
+		if ("@Model.Filter.BrandFilter.ToLower()" == option.value.toLowerCase())
+			option.selected = true;
+	});
+
+</script>

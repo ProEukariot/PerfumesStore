@@ -1,0 +1,33 @@
+﻿@model PerfumesStore.Models.CartViewModel
+
+@if (Model != null && Model.cartItems.Any())
+{
+	int i = 0;
+	foreach (var item in Model.cartItems)
+	{
+		i++;
+		<div class="row align-items-center mt-2 m-0 p-0">
+			<div class="col-1 p-0">@item.Id</div>
+			<div class="col p-0">@item.Name</div>
+			<div class="col p-0 d-flex align-items-center">
+				<a class="btn btn-outline-danger" asp-controller="Home" asp-action="RemoveFromCart"
+		   asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">-</a>
+				<div class="px-2">@item.Amount</div>
+				<a class="btn btn-outline-success" asp-controller="Home" asp-action="ToCart"
+		   asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">+</a>
+			</div>
+			<div class="col p-0 text-center">@item.TotalPrice$</div>
+			<div class="col-3 p-0">
+				<a class="btn btn-outline-danger w-100" asp-action="RemoveLineFromCart" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Remove</a>
+			</div>
+		</div>
+	}
+	<div class="h6 py-2">Total price: @Model.TotalPrice</div>
+	<div class="d-grid mt-2"><a class="btn btn-success shadow-sm" asp-action="BuyItems">Purchase</a></div>
+	<div class="d-grid mt-2"><a class="btn btn-danger shadow-sm" asp-action="ClearCart" asp-route-returnUrl="@Context.Request.Path">Clear all</a></div>
+}
+else
+{
+	<p class="text-secondary">The cart is empty</p>
+}
+

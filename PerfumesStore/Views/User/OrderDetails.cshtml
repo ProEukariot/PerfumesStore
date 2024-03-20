@@ -1,0 +1,35 @@
+﻿@model IEnumerable<HistoryOrderViewModel>
+
+@{
+	int i = 0;
+}
+
+<div class="container">
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Category</th>
+				<th scope="col">Price</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Order date</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var order in Model)
+			{
+				<tr>
+					<th scope="row">@(++i)</th>
+					<td>@order.ItemName</td>
+					<td>@order.Type</td>
+					<td>@order.Price</td>
+					<td>@order.Quantity</td>
+					<td>@order.Created_at.ToString(@"dd/MM/yy hh:mm:ss")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+</div>

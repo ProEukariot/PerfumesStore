@@ -1,0 +1,74 @@
+﻿@model GiftPack
+
+<form class="form" method="post" asp-action="EditGiftPack">
+	<input class="form-control" type="number" asp-for="Id" value="@Model.Id" hidden />
+
+	<div class="row m-3">
+		<label class="col-form-label col-sm-2 col-12" asp-for="Name"></label>
+		<div class="col">
+			<input class="form-control" type="text" asp-for="Name" />
+		</div>
+	</div>
+	<div class="row m-3">
+		<label asp-for="State" class="form-label"></label>
+		<div class="form-check">
+			<input class="form-check-input" asp-for="State" type="radio" name="state" value="Male" id="stateRadio2">
+			<label class="form-check-label" for="stateRadio2">
+				Male
+			</label>
+		</div>
+		<div class="form-check">
+			<input class="form-check-input" asp-for="State" type="radio" name="state" value="Female" id="stateRadio3">
+			<label class="form-check-label" for="stateRadio3">
+				Female
+			</label>
+		</div>
+		<div class="form-check">
+			<input class="form-check-input" asp-for="State" type="radio" name="state" value="Unisex" id="stateRadio4">
+			<label class="form-check-label" for="stateRadio4">
+				Unisex
+			</label>
+		</div>
+	</div>
+	<div class="row m-3">
+		<label class="col-form-label col-sm-2 col-12" asp-for="Price"></label>
+		<div class="col">
+			<input class="form-control" type="number" asp-for="Price" />
+		</div>
+	</div>
+	<div class="row m-3">
+		<label class="col-form-label col-sm-2 col-12" asp-for="Desc"></label>
+		<div class="col">
+			<input class="form-control" type="text" asp-for="Desc" />
+		</div>
+	</div>
+	<div class="row m-3">
+		<label class="col-form-label col-sm-2 col-12" asp-for="Quantity"></label>
+		<div class="col">
+			<input class="form-control" value="@Model.Quantity" type="number" asp-for="Quantity" />
+		</div>
+	</div>
+	<div class="row m-3">
+		<label class="col-form-label col-sm-2 col-12" asp-for="DiscountId"></label>
+		<div class="col">
+			<select class="form-control" asp-for="DiscountId">
+				<option value="1">90</option>
+				<option value="2">50</option>
+				<option value="3">25</option>
+				<option value="4">10</option>
+				<option value="5">5</option>
+				<option selected value="6">0</option>
+			</select>
+		</div>
+	</div>
+	<div class="d-grid">
+		<input class="btn btn-light shadow-sm" type="submit" value="submit" />
+	</div>
+
+	<div asp-validation-summary="All"></div>
+</form>
+
+<form class="form mt-3" method="post" asp-action="DeletePack">
+	<input name="id" type="hidden" value="@Model.Id" />
+	<input class="btn btn-danger w-100" type="submit" value="Delete" />
+</form>

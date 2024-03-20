@@ -1,0 +1,17 @@
+﻿
+<h2>Just watch how we take your money in <span id="timeout"></span></h2>
+
+<script>
+	let startFrom = 5;
+	let timeout = document.getElementById("timeout");
+	timeout.innerHTML = startFrom;
+
+	setInterval(() => {
+		timeout.innerHTML = --startFrom;
+		if(startFrom <= 0){
+			location.href = "/";
+		}
+	}, 1000)
+
+
+</script>

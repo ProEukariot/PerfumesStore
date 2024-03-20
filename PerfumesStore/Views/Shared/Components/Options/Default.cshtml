@@ -1,0 +1,79 @@
+﻿
+<div class="container rounded border border-primary p-2">
+	<ul class="nav nav-pills">
+		@if (User.IsInRole(UserRoles.User.ToString()))
+		{
+			@*<li class="nav-item">
+				<a id="user-settings" class="nav-link active-link-toggle" asp-controller="User" asp-action="Settings" asp-route-linkActive="user-settings" asp-route-linkId="Options">Account settings</a>
+			</li>*@
+			
+			<li class="nav-item">
+				<a id="user-history" class="nav-link active-link-toggle" asp-controller="User" asp-action="History" asp-route-linkActive="user-history" asp-route-linkId="Options">History</a>
+			</li>
+		}
+		@if (User.IsInRole(UserRoles.Staff.ToString()))
+		{
+			@*<li class="nav-item">
+				<a id="staff-settings" class="nav-link active-link-toggle" asp-controller="Staff" asp-action="Settings" asp-route-linkActive="staff-settings" asp-route-linkId="Options">Account settings</a>
+			</li>*@
+			<li class="nav-item">
+				<a id="staff-delivery" class="nav-link active-link-toggle" asp-controller="Staff" asp-action="Delivery" asp-route-linkActive="staff-delivery" asp-route-linkId="Options">Delivery</a>
+			</li>
+			<li class="nav-item">
+				<a id="staff-packing" class="nav-link active-link-toggle" asp-controller="Staff" asp-action="Packing" asp-route-linkActive="staff-packing" asp-route-linkId="Options">Packing</a>
+			</li>
+			<li class="nav-item">
+				<a id="staff-takeorder" class="nav-link active-link-toggle" asp-controller="Staff" asp-action="TakeOrder" asp-route-linkActive="staff-takeorder" asp-route-linkId="Options">Take order</a>
+			</li>
+		}
+		@if (User.IsInRole(UserRoles.Admin.ToString()))
+		{
+			@*<li class="nav-item">
+				<a id="admin-settings" class="nav-link active-link-toggle" asp-controller="Admin" asp-action="Settings" asp-route-linkActive="admin-settings" asp-route-linkId="Options">Account settings</a>
+			</li>*@
+			<li class="nav-item">
+				<a id="admin-statistics" class="nav-link active-link-toggle" asp-controller="Admin" asp-action="Statistics" asp-route-linkActive="admin-statistics" asp-route-linkId="Options">Statistics</a>
+			</li>
+			<li class="nav-item">
+				<a id="admin-items" class="nav-link active-link-toggle" asp-controller="Admin" asp-action="Items" asp-route-linkActive="admin-items" asp-route-linkId="Options">Operate items</a>
+			</li>
+			<li class="nav-item">
+				<a id="admin-staff" class="nav-link active-link-toggle" asp-controller="Admin" asp-action="Staff" asp-route-linkActive="admin-staff" asp-route-linkId="Options">Operate staff</a>
+			</li>
+		}
+	</ul>
+</div>
+
+<script>
+	@{
+		string? linkActive = Context.Request.Query["linkActive"];
+		if (string.IsNullOrEmpty(linkActive))
+		{
+			if (User.IsInRole(UserRoles.User.ToString()))
+			{
+				linkActive = "user-settings";
+			}
+			if (User.IsInRole(UserRoles.Staff.ToString()))
+			{
+				linkActive = "staff-settings";
+			}
+			if (User.IsInRole(UserRoles.Admin.ToString()))
+			{
+				linkActive = "admin-settings";
+			}
+			if (User.IsInRole(UserRoles.Admin.ToString()))
+			{
+				linkActive = "staff-takeorder";
+			}
+		}
+	}
+
+	const linkActive = "@linkActive";
+	const link = document.getElementById(linkActive);
+	const links = Array.from(document.getElementsByClassName("active-link-toggle"));
+	console.log(links);
+	links.forEach(l => {
+		l.classList.remove("active");
+	});
+	link.classList.add("active");
+</script>

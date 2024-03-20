@@ -1,0 +1,40 @@
+﻿@model IEnumerable<GroupedItemViewModel>
+@{
+	int i = 0;
+}
+<div class="container">
+	@await Component.InvokeAsync("Options")
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Total price</th>
+				<th scope="col">Status</th>
+				<th scope="col">Order date</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var order in Model)
+			{
+				<tr>
+					<th scope="row">@(++i)</th>
+					<td>@order.TotalSum</td>
+					<td>@order.Status</td>
+					<td>@order.Date.ToString(@"dd/MM/yy hh:mm:ss")</td>
+					@if (order.Status.Equals("delivered"))
+					{
+						<td><a class="btn btn-warning" asp-action="OrderDetails" asp-route-id="@order.Id">Details</a></td>
+					}
+					else
+					{
+						<td><a class="btn btn-info" asp-action="OrderDetails" asp-route-id="@order.Id">Details</a></td>
+					}
+				</tr>
+			}
+		</tbody>
+	</table>
+
+</div>
+

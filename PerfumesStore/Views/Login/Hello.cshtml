@@ -1,0 +1,32 @@
+﻿
+<div id="Hello">
+	<h1>Hello, @Context.User.Identity!.Name!</h1>
+</div>
+
+
+<style>
+	#Hello {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+		#Hello > h1 {
+			color: white;
+			animation: fade 3s ease-in-out;
+			font-size: 5rem;
+		}
+
+	@@keyframes fade {
+		50% {
+			color: black
+		}
+	}
+</style>
+
+<script>
+	setTimeout(() => {
+		location.href = "@Model.returnUrl";
+	}, 3000);
+</script>

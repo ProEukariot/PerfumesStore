@@ -1,0 +1,186 @@
+﻿@model PerfumesStore.Models.DbStatisticsViewModels.BaseStatisticsViewModel
+
+@await Component.InvokeAsync("Options")
+
+<button class="mt-2 btn btn-outline-primary h3" data-bs-toggle="collapse" data-bs-target="#s1">Orders only with gift packs</button>
+
+<div id="s1" class="collapse">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Total</th>
+				<th scope="col">Status</th>
+				<th scope="col">Created at</th>
+				<th scope="col">Customer id</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var i in Model.ordersWithOnlyGiftPacks)
+			{
+				<tr>
+					<td>@i.Id</td>
+					<td>@i.Total</td>
+					<td>@i.Status</td>
+					<td>@i.CreatedAt.ToString("yy/MM/dd hh:mm:ss")</td>
+					<td>@i.ClientId</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<button class="mt-2 btn btn-outline-primary h3" data-bs-toggle="collapse" data-bs-target="#s2">
+	Common discounts</button>
+
+<div id="s2" class="collapse">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var i in Model.CommonDiscounts)
+			{
+				<tr>
+					<td>@i</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+<button class="mt-2 btn btn-outline-primary h3" data-bs-toggle="collapse" data-bs-target="#s3">
+	Brands in each order</button>
+
+<div id="s3" class="collapse">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var i in Model.BrandsInEachOrder)
+			{
+				<tr>
+					<td>@i</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<button class="mt-2 btn btn-outline-primary h3" data-bs-toggle="collapse" data-bs-target="#s4">
+	Clients ordered by the price of orders</button>
+
+<div id="s4" class="collapse">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Customer</th>
+				<th scope="col">Sum</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var i in Model.CustomerWithOrderPrice)
+			{
+				<tr>
+					<td>@i.Username</td>
+					<td>@i.Sum</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<button class="mt-2 btn btn-outline-primary h3" data-bs-toggle="collapse" data-bs-target="#s5">
+	User ranking</button>
+
+<div id="s5" class="collapse">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Perfumes Rank</th>
+				<th scope="col">Perfumes Bought</th>
+				<th scope="col">Packs Rank</th>
+				<th scope="col">Packs Bought</th>
+				<th scope="col">Price Rank</th>
+				<th scope="col">Price Spent</th>
+				<th scope="col">User Id</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var i in Model.UserRanking)
+			{
+				<tr>
+					<td>@i.PerfumesRank</td>
+					<td>@i.PerfumesBought</td>
+					<td>@i.PacksRank</td>
+					<td>@i.PacksBought</td>
+					<td>@i.PriceRank</td>
+					<td>@i.PriceSpent</td>
+					<td>@i.UserId</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<button class="mt-2 btn btn-outline-primary h3" data-bs-toggle="collapse" data-bs-target="#s6">
+	Seasonal stat</button>
+
+<div id="s6" class="collapse">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Year</th>
+				<th scope="col">Season</th>
+				<th scope="col">Sum</th>
+				<th scope="col">Difference</th>
+				<th scope="col">Previous season sum</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var i in Model.GeneralSeasonalStats)
+			{
+				<tr>
+					<td>@i.Year</td>
+					<td>@i.Season</td>
+					<td>@i.Sum</td>
+					<td>@i.Prev</td>
+					<td>@i.Diff</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<button class="mt-2 btn btn-outline-primary h3" data-bs-toggle="collapse" data-bs-target="#s7">
+	The most popular perfumes of each brand</button>
+
+<div id="s7" class="collapse">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Rank</th>
+				<th scope="col">Name</th>
+				<th scope="col">Brand</th>
+				<th scope="col">Bought</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var i in Model.TopOfEachBrand)
+			{
+				<tr>
+					<td>@i.rank</td>
+					<td>@i.Name</td>
+					<td>@i.Brand</td>
+					<td>@i.Bought</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<h3></h3>

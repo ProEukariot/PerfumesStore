@@ -1,0 +1,83 @@
+﻿@model IEnumerable<PerfumesStore.Models.ItemUnit>
+
+@{
+	int i = 0;
+	string type = "";
+}
+
+@await Component.InvokeAsync("Options")
+
+@if (Context.Response.StatusCode == 201)
+{
+	<div class="alert alert-success my-2" role="alert">
+		The action was proceeded succesful!
+	</div>
+}
+
+<div class="mt-3 table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th class="text-center" scope="col">#</th>
+				<th class="text-center" scope="col">Name</th>
+				<th class="text-center" scope="col">Brand</th>
+				<th class="text-center" scope="col">State</th>
+				<th class="text-center" scope="col">Price</th>
+				@*<th class="text-center" scope="col">Description</th>*@
+				<th class="text-center" scope="col">Type</th>
+				<th class="text-center" scope="col">Quantity</th>
+				<th class="text-center" scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<th class="text-center" scope="row">@(++i)</th>
+					<td class="text-center">@item.Name</td>
+					<td class="text-center">
+						@{
+							if (item is Perfume)
+							{
+								@((item as Perfume).Brand)
+							}
+						}
+					</td>
+					<td class="text-center">@item.State</td>
+					<td class="text-center">@item.Price</td>
+					@*<td class="text-center">@item.Desc</td>*@
+					<td class="text-center">
+						@{
+							if (item is Perfume)
+							{
+								type = "Perfume";
+								<text>Perfume</text>
+							}
+							if (item is GiftPack)
+							{
+								type = "GiftPack";
+								<text>Gift pack</text>
+							}
+						}
+						</td>
+					<td class="text-center">@item.Quantity</td>
+
+					<td class="text-center"><a class="btn btn-outline-warning w-100" asp-action="EditItem" asp-route-id="@item.Id" asp-route-type="@type">Edit</a></td>
+				</tr>
+			}
+			<tr>
+				<th class="text-center" scope="row">@(++i)</th>
+				<td class="text-center"></td>
+				<td class="text-center"></td>
+				<td class="text-center"></td>
+				<td class="text-center"></td>
+				<td class="text-center"></td>
+				@*<td class="text-center"></td>*@
+				<td class="text-center"></td>
+				<td class="text-center">
+					<a class="btn btn-success w-100" asp-action="AddItem">Add Item</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

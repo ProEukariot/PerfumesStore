@@ -1,0 +1,40 @@
+﻿@model List<DeliveryViewModel>
+
+@{
+	int i = 0;
+}
+
+<div class="container">
+	@await Component.InvokeAsync("Options")
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Contacts</th>
+				<th scope="col">Address</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var order in Model)
+			{
+				if (order.Status.Equals("delivering"))
+				{
+					<tr>
+						<th scope="row">@(++i)</th>
+						<td>@order.Email</td>
+						<td>@order.Address</td>
+						<td>
+							<form method="post" asp-action="FinishDelivery">
+								<input type="hidden" name="id" value="@order.Id">
+								<input type="submit" value="Delivered" class="btn btn-success">
+							</form>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
+

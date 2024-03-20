@@ -1,0 +1,29 @@
+﻿@model IEnumerable<WorkViewModel>
+
+@{
+	int i = 0;
+}
+
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Worker id</th>
+			<th scope="col">Finished work at</th>
+			<th scope="col">Work status</th>
+			<th scope="col">Work type</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var work in Model)
+		{
+			<tr>
+				<th scope="row">@(++i)</th>
+				<td>@work.WorkerId</td>
+				<td>@work.FinishedAt.ToString("yy/MM/dd hh:mm:ss")</td>
+				<td>@work.Status</td>
+				<td>@work.WorkType</td>
+			</tr>
+		}
+	</tbody>
+</table>
